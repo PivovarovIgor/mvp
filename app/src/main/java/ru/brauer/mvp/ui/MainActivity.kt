@@ -2,22 +2,20 @@ package ru.brauer.mvp.ui
 
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
-import ru.brauer.mvp.App
+import moxy.MvpAppCompatActivity
+import moxy.ktx.moxyPresenter
 import ru.brauer.mvp.R
 import ru.brauer.mvp.databinding.ActivityMainBinding
 import ru.brauer.mvp.presenter.CounterId
 import ru.brauer.mvp.presenter.MainPresenter
 import ru.brauer.mvp.presenter.MainView
 
-class MainActivity : AppCompatActivity(), MainView {
+class MainActivity : MvpAppCompatActivity(), MainView {
 
     private val vb: ActivityMainBinding by lazy {
         ActivityMainBinding.inflate(layoutInflater)
     }
-    private val presenter: MainPresenter by lazy {
-        (applicationContext as App).mainPresenter
-    }
+    private val presenter: MainPresenter by moxyPresenter { MainPresenter() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,16 +35,6 @@ class MainActivity : AppCompatActivity(), MainView {
             btnCounter2.setOnClickListener(listener)
             btnCounter3.setOnClickListener(listener)
         }
-    }
-
-    override fun onStart() {
-        super.onStart()
-        presenter.onAttachView(this)
-    }
-
-    override fun onStop() {
-        super.onStop()
-        presenter.onDetachView()
     }
 
     override fun setButton1Text(text: String) {
