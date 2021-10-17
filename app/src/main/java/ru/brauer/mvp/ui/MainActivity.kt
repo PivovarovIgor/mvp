@@ -7,6 +7,7 @@ import moxy.ktx.moxyPresenter
 import ru.brauer.mvp.App
 import ru.brauer.mvp.R
 import ru.brauer.mvp.databinding.ActivityMainBinding
+import ru.brauer.mvp.presenter.AndroidScreens
 import ru.brauer.mvp.presenter.IBackButtonListener
 import ru.brauer.mvp.presenter.IMainView
 import ru.brauer.mvp.presenter.ScreenPresenter
@@ -43,7 +44,6 @@ class MainActivity : MvpAppCompatActivity(), IMainView {
     }
 
     override fun onBackPressed() {
-        super.onBackPressed()
         supportFragmentManager.fragments.forEach {
             if (it is IBackButtonListener && it.backPressed()) {
                 return

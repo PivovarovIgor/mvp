@@ -5,7 +5,11 @@ import moxy.MvpPresenter
 import ru.brauer.mvp.model.GithubUser
 import ru.brauer.mvp.model.GithubUsersRepo
 
-class UsersPresenter(val usersRepo: GithubUsersRepo, val router: Router) :
+class UsersPresenter(
+    private val usersRepo: GithubUsersRepo,
+    private val router: Router,
+    private val screens: IScreens
+) :
     MvpPresenter<IUsersView>() {
 
     class UsersListPresenter : IUserListPresenter {
@@ -28,7 +32,8 @@ class UsersPresenter(val usersRepo: GithubUsersRepo, val router: Router) :
         loadData()
 
         usersListPresenter.itemClickListener = { itemView ->
-            //TODO переход на экран пользователя с помошью router.navigateTo
+            screens.user(usersListPresenter.users[itemView.pos])
+                .also { router.navigateTo(it) }
         }
     }
 

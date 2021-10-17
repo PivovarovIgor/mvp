@@ -11,6 +11,7 @@ import moxy.ktx.moxyPresenter
 import ru.brauer.mvp.App
 import ru.brauer.mvp.databinding.FragmentUsersBinding
 import ru.brauer.mvp.model.GithubUsersRepo
+import ru.brauer.mvp.presenter.AndroidScreens
 import ru.brauer.mvp.presenter.IBackButtonListener
 import ru.brauer.mvp.presenter.UsersPresenter
 import ru.brauer.mvp.presenter.IUsersView
@@ -21,9 +22,9 @@ class UsersFragment : MvpAppCompatFragment(), IUsersView, IBackButtonListener {
     }
 
     val presenter: UsersPresenter by moxyPresenter {
-        UsersPresenter(GithubUsersRepo(), App.instance.router)
+        UsersPresenter(GithubUsersRepo(), App.instance.router, AndroidScreens())
     }
-    val adapter: UsersRVAdapter by lazy {
+    private val adapter: UsersRVAdapter by lazy {
         UsersRVAdapter(presenter.usersListPresenter)
     }
 
