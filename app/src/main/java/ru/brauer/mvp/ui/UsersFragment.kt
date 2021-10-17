@@ -1,0 +1,58 @@
+package ru.brauer.mvp.ui
+
+import android.annotation.SuppressLint
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import moxy.MvpAppCompatFragment
+import moxy.ktx.moxyPresenter
+import ru.brauer.mvp.App
+import ru.brauer.mvp.databinding.FragmentUsersBinding
+import ru.brauer.mvp.model.GithubUsersRepo
+import ru.brauer.mvp.presenter.IBackButtonListener
+import ru.brauer.mvp.presenter.UsersPresenter
+import ru.brauer.mvp.presenter.IUsersView
+
+class UsersFragment : MvpAppCompatFragment(), IUsersView, IBackButtonListener {
+    companion object {
+        fun newInstance() = UsersFragment()
+    }
+
+    val presenter: UsersPresenter by moxyPresenter {
+        UsersPresenter(GithubUsersRepo(), App.instance.router)
+    }
+    val adapter: UsersRVAdapter by lazy {
+        UsersRVAdapter(presenter.usersListPresenter)
+    }
+
+    private var vb: FragmentUsersBinding? = null
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View = FragmentUsersBinding.inflate(inflater, container, false)
+        .also { vb = it }
+        .root
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        vb = null
+    }
+
+    override fun init() {
+        vb?.apply {
+            rvUsers.layoutManager = LinearLayoutManager(context)
+            rvUsers.adapter = adapter
+        }
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    override fun updateList() {
+        adapter.notifyDataSetChanged()
+    }
+
+    override fun backPressed(): Boolean = presenter.backPressed()
+}

@@ -4,6 +4,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ru.brauer.mvp.databinding.ItemUserBinding
+import ru.brauer.mvp.presenter.IUserItemView
+import ru.brauer.mvp.presenter.IUserListPresenter
 
 class UsersRVAdapter(private val presenter: IUserListPresenter) :
     RecyclerView.Adapter<UsersRVAdapter.ViewHolder>() {
@@ -27,7 +29,7 @@ class UsersRVAdapter(private val presenter: IUserListPresenter) :
     override fun getItemCount(): Int = presenter.getCount()
 
     inner class ViewHolder(private val vb: ItemUserBinding) : RecyclerView.ViewHolder(vb.root),
-        UserItemView {
+        IUserItemView {
 
         override var pos: Int = -1
 

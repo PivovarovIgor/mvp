@@ -1,4 +1,4 @@
-package ru.brauer.mvp.ui
+package ru.brauer.mvp.presenter
 
 interface IItemView {
     var pos: Int
