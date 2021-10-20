@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import ru.brauer.mvp.App
@@ -13,8 +14,8 @@ import ru.brauer.mvp.databinding.FragmentUsersBinding
 import ru.brauer.mvp.model.GithubUsersRepo
 import ru.brauer.mvp.presenter.AndroidScreens
 import ru.brauer.mvp.presenter.IBackButtonListener
-import ru.brauer.mvp.presenter.UsersPresenter
 import ru.brauer.mvp.presenter.IUsersView
+import ru.brauer.mvp.presenter.UsersPresenter
 
 class UsersFragment : MvpAppCompatFragment(), IUsersView, IBackButtonListener {
     companion object {
@@ -53,6 +54,16 @@ class UsersFragment : MvpAppCompatFragment(), IUsersView, IBackButtonListener {
     @SuppressLint("NotifyDataSetChanged")
     override fun updateList() {
         adapter.notifyDataSetChanged()
+    }
+
+    override fun notifyItemInserted(position: Int) {
+        adapter.notifyItemInserted(position)
+    }
+
+    override fun showMessageError(message: String) {
+        view?.let {
+            Snackbar.make(it, message, Snackbar.LENGTH_LONG).show()
+        }
     }
 
     override fun backPressed(): Boolean = presenter.backPressed()

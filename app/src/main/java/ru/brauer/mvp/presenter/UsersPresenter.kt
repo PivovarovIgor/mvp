@@ -1,6 +1,9 @@
 package ru.brauer.mvp.presenter
 
 import com.github.terrakok.cicerone.Router
+import com.google.android.material.snackbar.Snackbar
+import io.reactivex.rxjava3.core.Observer
+import io.reactivex.rxjava3.disposables.Disposable
 import moxy.MvpPresenter
 import ru.brauer.mvp.model.GithubUser
 import ru.brauer.mvp.model.GithubUsersRepo
@@ -24,6 +27,33 @@ class UsersPresenter(
         }
     }
 
+    private val repositoryObserver = object : Observer<GithubUser> {
+
+        private var disposable: Disposable? = null
+
+        override fun onSubscribe(disposable: Disposable) {
+            this.disposable?.apply {
+                if (!isDisposed) {
+                    dispose()
+                }
+            }
+            usersListPresenter.users.clear()
+            this.disposable = disposable
+        }
+
+        override fun onNext(user: GithubUser) {
+            usersListPresenter.users += user
+        }
+
+        override fun onError(e: Throwable) {
+            viewState
+        }
+
+        override fun onComplete() {
+            viewState.updateList()
+        }
+    }
+
     val usersListPresenter = UsersListPresenter()
 
     override fun onFirstViewAttach() {
@@ -38,9 +68,7 @@ class UsersPresenter(
     }
 
     private fun loadData() {
-        val users = usersRepo.getUsers()
-        usersListPresenter.users.addAll(users)
-        viewState.updateList()
+        usersRepo.getUsers().subscribe(repositoryObserver)
     }
 
     fun backPressed(): Boolean {
