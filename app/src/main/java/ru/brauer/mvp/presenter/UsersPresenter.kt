@@ -46,7 +46,7 @@ class UsersPresenter(
         }
 
         override fun onError(e: Throwable) {
-            viewState
+            viewState.showMessageError(e.message ?: "Undefine error")
         }
 
         override fun onComplete() {
@@ -67,7 +67,7 @@ class UsersPresenter(
         }
     }
 
-    private fun loadData() {
+    fun loadData() {
         usersRepo.getUsers().subscribe(repositoryObserver)
     }
 

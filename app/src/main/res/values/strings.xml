@@ -3,4 +3,5 @@
     <string name="counter_one">counter one</string>
     <string name="counter_two">counter two</string>
     <string name="counter_tree">counter tree</string>
+    <string name="reload">Reload</string>
 </resources>

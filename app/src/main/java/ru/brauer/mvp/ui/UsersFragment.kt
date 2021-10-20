@@ -10,6 +10,7 @@ import com.google.android.material.snackbar.Snackbar
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import ru.brauer.mvp.App
+import ru.brauer.mvp.R
 import ru.brauer.mvp.databinding.FragmentUsersBinding
 import ru.brauer.mvp.model.GithubUsersRepo
 import ru.brauer.mvp.presenter.AndroidScreens
@@ -62,7 +63,12 @@ class UsersFragment : MvpAppCompatFragment(), IUsersView, IBackButtonListener {
 
     override fun showMessageError(message: String) {
         view?.let {
-            Snackbar.make(it, message, Snackbar.LENGTH_LONG).show()
+            Snackbar
+                .make(it, message, Snackbar.LENGTH_INDEFINITE)
+                .setAction(R.string.reload) {
+                    presenter.loadData()
+                }
+                .show()
         }
     }
 
