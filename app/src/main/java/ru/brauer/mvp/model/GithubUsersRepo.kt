@@ -6,18 +6,20 @@ import kotlin.random.Random
 
 class GithubUsersRepo {
 
-    private val repositories = (1..100).map { GithubUser("login $it") }
+    private val repositories = (1..100)
+        .shuffled()
+        .map { GithubUser("login $it") }
 
     fun getUsers(): Observable<GithubUser> = Observable.create { emitter ->
-        val random = Random(100)
         try {
             repositories.forEach {
-                if (random.nextInt(100) == 1) throw IOException("IO error")
+                if (Random.nextInt(1000) == 1) throw IOException("IO error")
                 emitter.onNext(it)
+                Thread.sleep(Random.nextLong(100))
             }
+            emitter.onComplete()
         } catch (ex: Throwable) {
             emitter.onError(ex)
         }
-        emitter.onComplete()
     }
 }

@@ -16,4 +16,7 @@ interface IUsersView : MvpView {
 
     @StateStrategyType(OneExecutionStateStrategy::class)
     fun showMessageError(message: String)
+
+    @StateStrategyType(OneExecutionStateStrategy::class)
+    fun showMessageOnComplete()
 }

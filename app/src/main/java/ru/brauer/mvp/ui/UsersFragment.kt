@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import moxy.MvpAppCompatFragment
@@ -70,6 +71,10 @@ class UsersFragment : MvpAppCompatFragment(), IUsersView, IBackButtonListener {
                 }
                 .show()
         }
+    }
+
+    override fun showMessageOnComplete() {
+        Toast.makeText(context, "on complete", Toast.LENGTH_LONG).show()
     }
 
     override fun backPressed(): Boolean = presenter.backPressed()

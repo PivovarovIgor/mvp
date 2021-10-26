@@ -1,9 +1,11 @@
 package ru.brauer.mvp.presenter
 
+import android.widget.Toast
 import com.github.terrakok.cicerone.Router
-import com.google.android.material.snackbar.Snackbar
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observer
 import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.schedulers.Schedulers
 import moxy.MvpPresenter
 import ru.brauer.mvp.model.GithubUser
 import ru.brauer.mvp.model.GithubUsersRepo
@@ -42,7 +44,12 @@ class UsersPresenter(
         }
 
         override fun onNext(user: GithubUser) {
-            usersListPresenter.users += user
+            usersListPresenter.users.indexOfFirst { it.login > user.login }
+                .let { if (it == -1) usersListPresenter.users.size else it }
+                .let {
+                    usersListPresenter.users.add(it, user)
+                    viewState.notifyItemInserted(it)
+                }
         }
 
         override fun onError(e: Throwable) {
@@ -50,7 +57,7 @@ class UsersPresenter(
         }
 
         override fun onComplete() {
-            viewState.updateList()
+            viewState.showMessageOnComplete()
         }
     }
 
@@ -68,7 +75,12 @@ class UsersPresenter(
     }
 
     fun loadData() {
-        usersRepo.getUsers().subscribe(repositoryObserver)
+        usersListPresenter.users.clear()
+        viewState.updateList()
+        usersRepo.getUsers()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(repositoryObserver)
     }
 
     fun backPressed(): Boolean {
