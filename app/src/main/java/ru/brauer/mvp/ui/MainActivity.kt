@@ -14,7 +14,6 @@ import ru.brauer.mvp.presenter.ScreenPresenter
 
 class MainActivity : MvpAppCompatActivity(), IMainView {
 
-
     private val navigation = AppNavigator(this, R.id.container)
 
     private val presenter by moxyPresenter {

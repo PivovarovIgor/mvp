@@ -4,4 +4,6 @@
     <string name="counter_two">counter two</string>
     <string name="counter_tree">counter tree</string>
     <string name="reload">Reload</string>
+    <string name="convert_picture_to_png_from_jpeg">Convert picture to PNG from JPEG</string>
+    <string name="image">image</string>
 </resources>
