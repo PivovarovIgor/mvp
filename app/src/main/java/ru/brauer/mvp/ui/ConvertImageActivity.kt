@@ -5,9 +5,13 @@ import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.schedulers.Schedulers
 import ru.brauer.mvp.databinding.ActivityConvertImageBinding
 import java.io.File
 import java.io.FileOutputStream
+import java.io.IOException
 
 class ConvertImageActivity : AppCompatActivity() {
 
@@ -30,42 +34,57 @@ class ConvertImageActivity : AppCompatActivity() {
     }
 
     private fun filePictureToPngFromGpeg() {
+
         val fileSource = File(filesDir, FILE_NAME_JPEG)
-        if (!fileSource.exists()) {
-            Toast.makeText(
-                applicationContext,
-                "not found file to convert: ${fileSource.canonicalPath}",
-                Toast.LENGTH_LONG
-            ).show()
-            return
-        } else if (!fileSource.canRead()) {
-            Toast.makeText(
-                applicationContext,
-                "file '${fileSource.canonicalPath}' is not readable",
-                Toast.LENGTH_LONG
-            ).show()
-            return
-        }
+
 
         val fileDest = File(filesDir, FILE_NAME_PNG)
-        if (fileDest.exists()) {
-            fileDest.delete()
+
+        Single.create<Bitmap> {
+            if (!fileSource.exists()) {
+                it.onError(IOException("not found file to convert: ${fileSource.canonicalPath}"))
+            } else if (!fileSource.canRead()) {
+                it.onError(IOException("file '${fileSource.canonicalPath}' is not readable"))
+            }
+            it.onSuccess(BitmapFactory.decodeFile(fileSource.canonicalPath))
         }
-
-        val bmp = BitmapFactory.decodeFile(fileSource.canonicalPath)
-        binding.picture.setImageBitmap(bmp)
-
-        FileOutputStream(fileDest).let {
-            try {
-                bmp.compress(Bitmap.CompressFormat.PNG, 100, it)
-                it.close()
-            } catch (e: Exception) {
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnSuccess { bmp ->
+                binding.picture.setImageBitmap(bmp)
+            }
+            .doOnError {
                 Toast.makeText(
                     applicationContext,
-                    e.message,
+                    it.message,
                     Toast.LENGTH_LONG
                 ).show()
             }
-        }
+            .observeOn(Schedulers.io())
+            .flatMap { bmp ->
+                if (fileDest.exists()) {
+                    fileDest.delete()
+                }
+                FileOutputStream(fileDest).let {
+                    bmp.compress(Bitmap.CompressFormat.PNG, 100, it)
+                    it.close()
+                }
+                Single.just(fileDest)
+            }
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                Toast.makeText(
+                    applicationContext,
+                    "converting is success to file ${it.canonicalPath}",
+                    Toast.LENGTH_LONG
+                )
+                    .show()
+            }, {
+                Toast.makeText(
+                    applicationContext,
+                    it.message,
+                    Toast.LENGTH_LONG
+                ).show()
+            })
     }
 }
