@@ -2,6 +2,7 @@ package ru.brauer.mvp.presenter
 
 import moxy.MvpView
 import moxy.viewstate.strategy.AddToEndSingleStrategy
+import moxy.viewstate.strategy.AddToEndStrategy
 import moxy.viewstate.strategy.OneExecutionStateStrategy
 import moxy.viewstate.strategy.StateStrategyType
 
@@ -12,5 +13,8 @@ interface IConvertImageView : MvpView {
     fun loadImageFromFile(bytesOfBmp: ByteArray)
 
     @StateStrategyType(OneExecutionStateStrategy::class)
-    fun showMessage(message:String)
+    fun showAlert(message:String)
+
+    @StateStrategyType(AddToEndStrategy::class)
+    fun showState(message: String)
 }

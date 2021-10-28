@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:padding="@dimen/default_padding">
 
     <Button
@@ -18,11 +19,21 @@
         android:id="@+id/picture"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:contentDescription="@string/image"
+        android:src="@drawable/ic_baseline_image_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/convert_picture" />
+
+    <TextView
+        android:id="@+id/text_states"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/convert_picture"
-        android:src="@drawable/ic_baseline_image_24"
-        android:contentDescription="@string/image" />
+        tools:text="text1"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

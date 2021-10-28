@@ -1,5 +1,6 @@
 package ru.brauer.mvp.ui
 
+import android.app.AlertDialog
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.widget.Toast
@@ -39,7 +40,17 @@ class ConvertImageActivity : MvpAppCompatActivity(), IConvertImageView {
             ?: Toast.makeText(applicationContext, "Error of loading", Toast.LENGTH_LONG).show()
     }
 
-    override fun showMessage(message: String) {
+    override fun showAlert(message: String) {
+        AlertDialog.Builder(applicationContext)
+            .setTitle("Error")
+            .setMessage(message)
+            .create()
+            .show()
+    }
 
+    override fun showState(message: String) {
+        binding.textStates.text = binding.textStates.text.let {
+            "$it\n$message"
+        }.trim()
     }
 }

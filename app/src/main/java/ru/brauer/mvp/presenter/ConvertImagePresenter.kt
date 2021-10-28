@@ -17,36 +17,40 @@ class ConvertImagePresenter(
     private var processingOfConvert: Disposable? = null
 
     fun startConvertFile() {
+
         processingOfConvert?.let {
             if (!it.isDisposed) {
                 it.dispose()
             }
         }
+        viewState.showState("start conversion")
         processingOfConvert = fileStorage.readFile(FILE_NAME_JPEG)
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSuccess {
+                viewState.showState("file reading is complete")
                 viewState.loadImageFromFile(it)
+                viewState.showState("showed image")
             }
             .doOnError {
-                viewState.showMessage(it.message ?: "Unknown error")
+                viewState.showAlert(it.message ?: "Unknown error")
             }
             .flatMap {
                 imageConvertor.convertToPng(it)
             }
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSuccess {
-                viewState.showMessage("Conversion to PNG completed")
+                viewState.showState("Conversion to PNG completed")
             }
             .doOnError {
-                viewState.showMessage(it.message ?: "Unknown error of conversion")
+                viewState.showAlert(it.message ?: "Unknown error of conversion")
             }
             .flatMapCompletable {
                 fileStorage.writeFile(it, FILE_NAME_PNG)
             }
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
-                {viewState.showMessage("PNG is saved")},
-                {viewState.showMessage(it.message ?: "Unknown error of PNG file saving")}
+                { viewState.showState("PNG is saved") },
+                { viewState.showAlert(it.message ?: "Unknown error of PNG file saving") }
             )
     }
 }
