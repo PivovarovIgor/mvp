@@ -1,7 +1,7 @@
 package ru.brauer.mvp.presenter
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.schedulers.Schedulers
+import io.reactivex.rxjava3.disposables.Disposable
 import moxy.MvpPresenter
 
 class ConvertImagePresenter(
@@ -14,8 +14,15 @@ class ConvertImagePresenter(
         private const val FILE_NAME_PNG = "nebel.png"
     }
 
+    private var processingOfConvert: Disposable? = null
+
     fun startConvertFile() {
-        fileStorage.readFile(FILE_NAME_JPEG)
+        processingOfConvert?.let {
+            if (!it.isDisposed) {
+                it.dispose()
+            }
+        }
+        processingOfConvert = fileStorage.readFile(FILE_NAME_JPEG)
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSuccess {
                 viewState.loadImageFromFile(it)
@@ -36,6 +43,7 @@ class ConvertImagePresenter(
             .flatMapCompletable {
                 fileStorage.writeFile(it, FILE_NAME_PNG)
             }
+            .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 {viewState.showMessage("PNG is saved")},
                 {viewState.showMessage(it.message ?: "Unknown error of PNG file saving")}
