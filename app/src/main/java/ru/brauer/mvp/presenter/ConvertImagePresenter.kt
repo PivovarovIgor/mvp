@@ -31,9 +31,6 @@ class ConvertImagePresenter(
                 viewState.loadImageFromFile(it)
                 viewState.showState("showed image")
             }
-            .doOnError {
-                viewState.showAlert(it.message ?: "Unknown error")
-            }
             .flatMap {
                 imageConvertor.convertToPng(it)
             }
@@ -41,16 +38,13 @@ class ConvertImagePresenter(
             .doOnSuccess {
                 viewState.showState("Conversion to PNG completed")
             }
-            .doOnError {
-                viewState.showAlert(it.message ?: "Unknown error of conversion")
-            }
             .flatMapCompletable {
                 fileStorage.writeFile(it, FILE_NAME_PNG)
             }
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 { viewState.showState("PNG is saved") },
-                { viewState.showAlert(it.message ?: "Unknown error of PNG file saving") }
+                { viewState.showAlert(it.message ?: "Unknown error") }
             )
     }
 }

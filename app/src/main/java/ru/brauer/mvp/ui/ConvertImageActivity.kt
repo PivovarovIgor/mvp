@@ -41,7 +41,7 @@ class ConvertImageActivity : MvpAppCompatActivity(), IConvertImageView {
     }
 
     override fun showAlert(message: String) {
-        AlertDialog.Builder(applicationContext)
+        AlertDialog.Builder(this)
             .setTitle("Error")
             .setMessage(message)
             .create()

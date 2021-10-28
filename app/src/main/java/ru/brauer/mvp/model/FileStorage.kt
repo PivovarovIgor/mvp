@@ -17,8 +17,10 @@ class FileStorage(
             val file = File(context.filesDir, fileName)
             if (!file.exists()) {
                 it.onError(IOException("not found file to convert: ${file.canonicalPath}"))
+                return@create
             } else if (!file.canRead()) {
                 it.onError(IOException("file '${file.canonicalPath}' is not readable"))
+                return@create
             }
             it.onSuccess(file.readBytes())
         }.subscribeOn(Schedulers.io())
