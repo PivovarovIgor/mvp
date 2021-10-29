@@ -75,12 +75,12 @@ class UsersPresenter(
     }
 
     fun loadData() {
-        usersListPresenter.users.clear()
-        viewState.updateList()
-        usersRepo.getUsers()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(repositoryObserver)
+//        usersListPresenter.users.clear()
+//        viewState.updateList()
+//        usersRepo.getUsers()
+//            .subscribeOn(Schedulers.io())
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribe(repositoryObserver)
     }
 
     fun backPressed(): Boolean {
