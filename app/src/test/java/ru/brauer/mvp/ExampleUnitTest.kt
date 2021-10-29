@@ -29,12 +29,10 @@ class ExampleUnitTest {
             .subscribeOn(Schedulers.io())
             .observeOn(Schedulers.newThread())
             .doOnSubscribe {
-                githubUsersRepo.loadNextChunkWithUsers()
                 println("subscribt")
             }
             .doOnNext(::println)
             .subscribe()
 
-        Thread.sleep(20000)
     }
 }

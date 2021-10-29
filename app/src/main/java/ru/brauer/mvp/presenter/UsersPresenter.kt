@@ -1,9 +1,8 @@
 package ru.brauer.mvp.presenter
 
-import android.widget.Toast
 import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.Observer
+import io.reactivex.rxjava3.core.SingleObserver
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import moxy.MvpPresenter
@@ -29,35 +28,26 @@ class UsersPresenter(
         }
     }
 
-    private val repositoryObserver = object : Observer<GithubUser> {
+    private val repositoryObserver = object : SingleObserver<List<GithubUser>> {
 
         private var disposable: Disposable? = null
 
-        override fun onSubscribe(disposable: Disposable) {
-            this.disposable?.apply {
-                if (!isDisposed) {
-                    dispose()
+        override fun onSubscribe(d: Disposable) {
+            disposable?.let {
+                if (!it.isDisposed) {
+                    it.dispose()
                 }
             }
-            usersListPresenter.users.clear()
-            this.disposable = disposable
+            disposable = d
         }
 
-        override fun onNext(user: GithubUser) {
-            usersListPresenter.users.indexOfFirst { it.login > user.login }
-                .let { if (it == -1) usersListPresenter.users.size else it }
-                .let {
-                    usersListPresenter.users.add(it, user)
-                    viewState.notifyItemInserted(it)
-                }
+        override fun onSuccess(t: List<GithubUser>) {
+            usersListPresenter.users.addAll(t)
+            viewState.updateList()
         }
 
         override fun onError(e: Throwable) {
-            viewState.showMessageError(e.message ?: "Undefine error")
-        }
-
-        override fun onComplete() {
-            viewState.showMessageOnComplete()
+            viewState.showMessageError(e.message ?: "Unknown error")
         }
     }
 
@@ -75,12 +65,12 @@ class UsersPresenter(
     }
 
     fun loadData() {
-//        usersListPresenter.users.clear()
-//        viewState.updateList()
-//        usersRepo.getUsers()
-//            .subscribeOn(Schedulers.io())
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .subscribe(repositoryObserver)
+        usersListPresenter.users.clear()
+        viewState.updateList()
+        usersRepo.getUsers()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(repositoryObserver)
     }
 
     fun backPressed(): Boolean {
