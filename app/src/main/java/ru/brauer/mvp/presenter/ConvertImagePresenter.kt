@@ -47,14 +47,14 @@ class ConvertImagePresenter(
                 fileStorage.writeFile(it, FILE_NAME_PNG)
             }
             .observeOn(AndroidSchedulers.mainThread())
-            .doOnDispose { viewState.setStateOfButton(ImageConversionButtonStates.STOPED) }
-            .doOnError { viewState.setStateOfButton(ImageConversionButtonStates.STOPED) }
+            .doOnDispose { viewState.setStateOfButton(ImageConversionButtonStates.STOPPED) }
+            .doOnError { viewState.setStateOfButton(ImageConversionButtonStates.STOPPED) }
             .subscribe({
                 viewState.showState("PNG is saved")
-                viewState.setStateOfButton(ImageConversionButtonStates.STOPED)
+                viewState.setStateOfButton(ImageConversionButtonStates.STOPPED)
             }, {
                 viewState.showAlert(it.message ?: "Unknown error")
-                viewState.setStateOfButton(ImageConversionButtonStates.STOPED)
+                viewState.setStateOfButton(ImageConversionButtonStates.STOPPED)
             })
     }
 }

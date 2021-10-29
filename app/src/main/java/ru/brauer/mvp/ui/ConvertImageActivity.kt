@@ -61,7 +61,7 @@ class ConvertImageActivity : MvpAppCompatActivity(), IConvertImageView {
     }
 
     override fun setStateOfButton(state: ImageConversionButtonStates) {
-        if (state == ImageConversionButtonStates.STOPED) {
+        if (state == ImageConversionButtonStates.STOPPED) {
             R.string.convert_picture_to_png_from_jpeg
         } else {
             R.string.stop_converting
