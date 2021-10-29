@@ -13,8 +13,11 @@ interface IConvertImageView : MvpView {
     fun loadImageFromFile(bytesOfBmp: ByteArray)
 
     @StateStrategyType(OneExecutionStateStrategy::class)
-    fun showAlert(message:String)
+    fun showAlert(message: String)
 
     @StateStrategyType(AddToEndStrategy::class)
     fun showState(message: String)
+
+    @StateStrategyType(AddToEndSingleStrategy::class)
+    fun setStateOfButton(state: ImageConversionButtonStates)
 }

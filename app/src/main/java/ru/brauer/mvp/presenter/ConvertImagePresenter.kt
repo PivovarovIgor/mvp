@@ -21,11 +21,16 @@ class ConvertImagePresenter(
         processingOfConvert?.let {
             if (!it.isDisposed) {
                 it.dispose()
+                return
             }
         }
-        viewState.showState("start conversion")
+        viewState.showState("")
         processingOfConvert = fileStorage.readFile(FILE_NAME_JPEG)
             .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe {
+                viewState.showState("start conversion")
+                viewState.setStateOfButton(ImageConversionButtonStates.STARTED)
+            }
             .doOnSuccess {
                 viewState.showState("file reading is complete")
                 viewState.loadImageFromFile(it)
@@ -42,9 +47,14 @@ class ConvertImagePresenter(
                 fileStorage.writeFile(it, FILE_NAME_PNG)
             }
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                { viewState.showState("PNG is saved") },
-                { viewState.showAlert(it.message ?: "Unknown error") }
-            )
+            .doOnDispose { viewState.setStateOfButton(ImageConversionButtonStates.STOPED) }
+            .doOnError { viewState.setStateOfButton(ImageConversionButtonStates.STOPED) }
+            .subscribe({
+                viewState.showState("PNG is saved")
+                viewState.setStateOfButton(ImageConversionButtonStates.STOPED)
+            }, {
+                viewState.showAlert(it.message ?: "Unknown error")
+                viewState.setStateOfButton(ImageConversionButtonStates.STOPED)
+            })
     }
 }
