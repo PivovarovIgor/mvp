@@ -1,13 +1,10 @@
 package ru.brauer.mvp
 
-import io.reactivex.rxjava3.observers.TestObserver
 import io.reactivex.rxjava3.schedulers.Schedulers
+import org.junit.Assert.assertEquals
 import org.junit.Test
-
-import org.junit.Assert.*
-import ru.brauer.mvp.model.GithubUser
+import ru.brauer.mvp.model.ApiHolder
 import ru.brauer.mvp.model.GithubUsersRepo
-import java.util.concurrent.TimeUnit
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -23,16 +20,16 @@ class ExampleUnitTest {
     @Test
     fun checkLoadingUsers() {
 
-        val githubUsersRepo = GithubUsersRepo()
+        val githubUsersRepo = GithubUsersRepo(ApiHolder.api)
         githubUsersRepo
-            .getUsers2()
+            .getUsers()
             .subscribeOn(Schedulers.io())
             .observeOn(Schedulers.newThread())
             .doOnSubscribe {
                 println("subscribt")
             }
-            .doOnNext(::println)
-            .subscribe()
+            .subscribe(::println)
 
+        Thread.sleep(3000)
     }
 }

@@ -36,9 +36,9 @@ class UserFragment() : MvpAppCompatFragment(), IUserView, IBackButtonListener {
         vb = null
     }
 
-    override fun init() {
+    override fun setLogin(login: String) {
         vb?.run {
-            userLogin.text = presenter.user.login
+            userLogin.text = login
         }
     }
 

@@ -1,16 +1,16 @@
 package ru.brauer.mvp.presenter
 
 import com.github.terrakok.cicerone.Router
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.rxjava3.core.SingleObserver
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import moxy.MvpPresenter
 import ru.brauer.mvp.model.GithubUser
-import ru.brauer.mvp.model.GithubUsersRepo
 
 class UsersPresenter(
-    private val usersRepo: GithubUsersRepo,
+    private val uiScheduler: Scheduler,
+    private val usersRepo: IGithubUsersRepo,
     private val router: Router,
     private val screens: IScreens
 ) :
@@ -24,7 +24,7 @@ class UsersPresenter(
 
         override fun bindView(view: IUserItemView) {
             val user = users[view.pos]
-            view.setLogin(user.login)
+            view.setLogin(user.login ?: "")
         }
     }
 
@@ -69,7 +69,7 @@ class UsersPresenter(
         viewState.updateList()
         usersRepo.getUsers()
             .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+            .observeOn(uiScheduler)
             .subscribe(repositoryObserver)
     }
 

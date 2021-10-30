@@ -1,19 +1,10 @@
 package ru.brauer.mvp.model
 
-import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.subjects.BehaviorSubject
+import io.reactivex.rxjava3.schedulers.Schedulers
+import ru.brauer.mvp.presenter.IGithub
+import ru.brauer.mvp.presenter.IGithubUsersRepo
 
-class GithubUsersRepo {
+class GithubUsersRepo(private val api: IGithub) : IGithubUsersRepo {
 
-    private val repositories = (1..100)
-        .shuffled()
-        .map { GithubUser("login $it") }
-
-    private val bs = BehaviorSubject.create<List<GithubUser>>()
-
-    fun getUsers2(): Observable<List<GithubUser>> = client.loadUsers().toObservable()
-
-    fun getUsers() = client.loadUsers()
-
-    val client = RetrofitHolder().api
+    override fun getUsers() = api.loadUsers().subscribeOn(Schedulers.io())
 }
