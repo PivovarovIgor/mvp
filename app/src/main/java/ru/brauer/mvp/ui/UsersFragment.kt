@@ -35,7 +35,7 @@ class UsersFragment : MvpAppCompatFragment(), IUsersView, IBackButtonListener {
         )
     }
     private val adapter: UsersRVAdapter by lazy {
-        UsersRVAdapter(presenter.usersListPresenter)
+        UsersRVAdapter(presenter.usersListPresenter, GlideImageLoader())
     }
 
     private var vb: FragmentUsersBinding? = null
