@@ -1,7 +1,7 @@
 package ru.brauer.mvp.presenter
 
 import com.github.terrakok.cicerone.Screen
-import ru.brauer.mvp.model.GithubUser
+import ru.brauer.mvp.model.githubusers.GithubUser
 
 interface IScreens {
     fun users(): Screen

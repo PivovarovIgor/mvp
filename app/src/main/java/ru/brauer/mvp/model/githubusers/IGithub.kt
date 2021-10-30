@@ -1,8 +1,7 @@
-package ru.brauer.mvp.presenter
+package ru.brauer.mvp.model.githubusers
 
 import io.reactivex.rxjava3.core.Single
 import retrofit2.http.GET
-import ru.brauer.mvp.model.GithubUser
 
 interface IGithub {
     @GET("users")

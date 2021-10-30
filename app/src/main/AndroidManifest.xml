@@ -23,7 +23,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.ConvertImageActivity"
+            android:name=".ui.convertimagefile.ConvertImageActivity"
             android:exported="true">
         </activity>
     </application>

@@ -2,7 +2,7 @@ package ru.brauer.mvp.ui
 
 import android.widget.ImageView
 import com.bumptech.glide.Glide
-import ru.brauer.mvp.model.IImageLoader
+import ru.brauer.mvp.model.convertimagefile.IImageLoader
 
 class GlideImageLoader : IImageLoader<ImageView> {
     override fun loadInto(url: String, container: ImageView) {

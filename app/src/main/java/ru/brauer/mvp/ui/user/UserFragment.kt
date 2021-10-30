@@ -1,4 +1,4 @@
-package ru.brauer.mvp.ui
+package ru.brauer.mvp.ui.user
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,10 +8,10 @@ import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import ru.brauer.mvp.App
 import ru.brauer.mvp.databinding.FragmentUserBinding
-import ru.brauer.mvp.model.GithubUser
-import ru.brauer.mvp.presenter.IBackButtonListener
-import ru.brauer.mvp.presenter.IUserView
-import ru.brauer.mvp.presenter.UserPresenter
+import ru.brauer.mvp.model.githubusers.GithubUser
+import ru.brauer.mvp.ui.IBackButtonListener
+import ru.brauer.mvp.presenter.user.IUserView
+import ru.brauer.mvp.presenter.user.UserPresenter
 
 class UserFragment() : MvpAppCompatFragment(), IUserView, IBackButtonListener {
 

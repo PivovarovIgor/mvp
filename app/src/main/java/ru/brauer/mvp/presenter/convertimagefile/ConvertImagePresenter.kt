@@ -1,4 +1,4 @@
-package ru.brauer.mvp.presenter
+package ru.brauer.mvp.presenter.convertimagefile
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.Disposable

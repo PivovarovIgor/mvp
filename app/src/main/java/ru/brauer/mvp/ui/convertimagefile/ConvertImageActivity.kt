@@ -1,4 +1,4 @@
-package ru.brauer.mvp.ui
+package ru.brauer.mvp.ui.convertimagefile
 
 import android.app.AlertDialog
 import android.graphics.BitmapFactory
@@ -8,11 +8,11 @@ import moxy.MvpAppCompatActivity
 import moxy.ktx.moxyPresenter
 import ru.brauer.mvp.R
 import ru.brauer.mvp.databinding.ActivityConvertImageBinding
-import ru.brauer.mvp.model.FileStorage
-import ru.brauer.mvp.model.ImageConvertor
-import ru.brauer.mvp.presenter.ConvertImagePresenter
-import ru.brauer.mvp.presenter.IConvertImageView
-import ru.brauer.mvp.presenter.ImageConversionButtonStates
+import ru.brauer.mvp.model.convertimagefile.FileStorage
+import ru.brauer.mvp.model.convertimagefile.ImageConvertor
+import ru.brauer.mvp.presenter.convertimagefile.ConvertImagePresenter
+import ru.brauer.mvp.presenter.convertimagefile.IConvertImageView
+import ru.brauer.mvp.presenter.convertimagefile.ImageConversionButtonStates
 
 class ConvertImageActivity : MvpAppCompatActivity(), IConvertImageView {
 

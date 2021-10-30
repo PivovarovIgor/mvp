@@ -1,4 +1,4 @@
-package ru.brauer.mvp.presenter
+package ru.brauer.mvp.presenter.user
 
 import moxy.MvpView
 import moxy.viewstate.strategy.AddToEndSingleStrategy

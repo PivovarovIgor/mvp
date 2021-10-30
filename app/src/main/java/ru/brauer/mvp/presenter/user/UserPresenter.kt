@@ -1,8 +1,8 @@
-package ru.brauer.mvp.presenter
+package ru.brauer.mvp.presenter.user
 
 import com.github.terrakok.cicerone.Router
 import moxy.MvpPresenter
-import ru.brauer.mvp.model.GithubUser
+import ru.brauer.mvp.model.githubusers.GithubUser
 
 class UserPresenter(private val user: GithubUser, private val router: Router) : MvpPresenter<IUserView>() {
 

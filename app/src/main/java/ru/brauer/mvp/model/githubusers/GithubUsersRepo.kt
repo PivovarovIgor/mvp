@@ -1,8 +1,7 @@
-package ru.brauer.mvp.model
+package ru.brauer.mvp.model.githubusers
 
 import io.reactivex.rxjava3.schedulers.Schedulers
-import ru.brauer.mvp.presenter.IGithub
-import ru.brauer.mvp.presenter.IGithubUsersRepo
+import ru.brauer.mvp.presenter.users.IGithubUsersRepo
 
 class GithubUsersRepo(private val api: IGithub) : IGithubUsersRepo {
 

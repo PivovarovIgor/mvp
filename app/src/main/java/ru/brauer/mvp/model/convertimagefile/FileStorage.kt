@@ -1,10 +1,10 @@
-package ru.brauer.mvp.model
+package ru.brauer.mvp.model.convertimagefile
 
 import android.app.Application
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
-import ru.brauer.mvp.presenter.IFileStorage
+import ru.brauer.mvp.presenter.convertimagefile.IFileStorage
 import java.io.File
 import java.io.IOException
 

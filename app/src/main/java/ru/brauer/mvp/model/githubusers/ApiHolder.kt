@@ -1,11 +1,10 @@
-package ru.brauer.mvp.model
+package ru.brauer.mvp.model.githubusers
 
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.GsonBuilder
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import ru.brauer.mvp.presenter.IGithub
 
 object ApiHolder {
 

@@ -1,4 +1,4 @@
-package ru.brauer.mvp.presenter
+package ru.brauer.mvp.presenter.users
 
 import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.core.Scheduler
@@ -6,7 +6,8 @@ import io.reactivex.rxjava3.core.SingleObserver
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import moxy.MvpPresenter
-import ru.brauer.mvp.model.GithubUser
+import ru.brauer.mvp.model.githubusers.GithubUser
+import ru.brauer.mvp.presenter.IScreens
 
 class UsersPresenter(
     private val uiScheduler: Scheduler,

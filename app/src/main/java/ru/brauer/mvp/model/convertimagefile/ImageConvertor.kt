@@ -1,10 +1,10 @@
-package ru.brauer.mvp.model
+package ru.brauer.mvp.model.convertimagefile
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
-import ru.brauer.mvp.presenter.IImageConvertor
+import ru.brauer.mvp.presenter.convertimagefile.IImageConvertor
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 

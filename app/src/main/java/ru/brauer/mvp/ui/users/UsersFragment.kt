@@ -1,4 +1,4 @@
-package ru.brauer.mvp.ui
+package ru.brauer.mvp.ui.users
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -14,12 +14,13 @@ import moxy.ktx.moxyPresenter
 import ru.brauer.mvp.App
 import ru.brauer.mvp.R
 import ru.brauer.mvp.databinding.FragmentUsersBinding
-import ru.brauer.mvp.model.ApiHolder
-import ru.brauer.mvp.model.GithubUsersRepo
-import ru.brauer.mvp.presenter.AndroidScreens
-import ru.brauer.mvp.presenter.IBackButtonListener
-import ru.brauer.mvp.presenter.IUsersView
-import ru.brauer.mvp.presenter.UsersPresenter
+import ru.brauer.mvp.model.githubusers.ApiHolder
+import ru.brauer.mvp.model.githubusers.GithubUsersRepo
+import ru.brauer.mvp.ui.AndroidScreens
+import ru.brauer.mvp.ui.IBackButtonListener
+import ru.brauer.mvp.presenter.users.IUsersView
+import ru.brauer.mvp.presenter.users.UsersPresenter
+import ru.brauer.mvp.ui.GlideImageLoader
 
 class UsersFragment : MvpAppCompatFragment(), IUsersView, IBackButtonListener {
     companion object {
