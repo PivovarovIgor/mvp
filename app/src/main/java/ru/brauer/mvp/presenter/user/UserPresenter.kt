@@ -24,7 +24,7 @@ class UserPresenter(
 
         override fun bindView(view: IRepoItemView) {
             val repo = githubRepository[view.pos]
-            view.setName(repo.name ?: "")
+            view.setData(repo)
         }
 
         override fun getCount(): Int = githubRepository.size

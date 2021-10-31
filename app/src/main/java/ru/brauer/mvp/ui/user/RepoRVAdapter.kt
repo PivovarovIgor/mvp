@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ru.brauer.mvp.databinding.ItemRepoBinding
+import ru.brauer.mvp.model.githubusers.GithubRepository
 import ru.brauer.mvp.presenter.user.IRepoItemView
 import ru.brauer.mvp.presenter.user.IRepoListPresenter
 
@@ -34,8 +35,11 @@ class RepoRVAdapter(
 
         override var pos: Int = -1
 
-        override fun setName(name: String) {
-            binding.repoName.text = name
+        override fun setData(repository: GithubRepository) {
+            with(binding) {
+                repoName.text = repository.name
+                repoLanguage.text = repository.language
+            }
         }
     }
 }

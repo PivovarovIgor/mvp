@@ -13,9 +13,20 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/default_margin"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/repo_language"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="repo" />
+
+    <TextView
+        android:id="@+id/repo_language"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/default_margin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/repo_name"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="java" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
