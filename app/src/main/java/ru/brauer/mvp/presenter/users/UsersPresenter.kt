@@ -70,7 +70,6 @@ class UsersPresenter(
         usersListPresenter.users.clear()
         viewState.updateList()
         usersRepo.getUsers()
-            .subscribeOn(Schedulers.io())
             .observeOn(uiScheduler)
             .subscribe(repositoryObserver)
     }

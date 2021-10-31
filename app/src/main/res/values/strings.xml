@@ -7,4 +7,9 @@
     <string name="convert_picture_to_png_from_jpeg">Convert picture to PNG from JPEG</string>
     <string name="image">image</string>
     <string name="stop_converting">Stop converting image file</string>
+    <string name="name">name:</string>
+    <string name="full_name">full name:</string>
+    <string name="language">language:</string>
+    <string name="forks_count">forks count:</string>
+    <string name="html_url">HTML URL:</string>
 </resources>
