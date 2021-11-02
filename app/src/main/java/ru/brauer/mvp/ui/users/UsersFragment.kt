@@ -31,6 +31,7 @@ class UsersFragment : MvpAppCompatFragment(), IUsersView, IBackButtonListener {
         UsersPresenter(
             AndroidSchedulers.mainThread(),
             GithubUsersRepo(ApiHolder.api),
+            App.instance.dataBase,
             App.instance.router,
             AndroidScreens()
         )
