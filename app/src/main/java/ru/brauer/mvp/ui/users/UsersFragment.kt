@@ -16,11 +16,12 @@ import ru.brauer.mvp.R
 import ru.brauer.mvp.databinding.FragmentUsersBinding
 import ru.brauer.mvp.model.githubusers.ApiHolder
 import ru.brauer.mvp.model.githubusers.GithubUsersRepo
-import ru.brauer.mvp.ui.AndroidScreens
-import ru.brauer.mvp.ui.IBackButtonListener
+import ru.brauer.mvp.model.orm.DatabaseGithubUsersRepo
 import ru.brauer.mvp.presenter.users.IUsersView
 import ru.brauer.mvp.presenter.users.UsersPresenter
+import ru.brauer.mvp.ui.AndroidScreens
 import ru.brauer.mvp.ui.GlideImageLoader
+import ru.brauer.mvp.ui.IBackButtonListener
 
 class UsersFragment : MvpAppCompatFragment(), IUsersView, IBackButtonListener {
     companion object {
@@ -31,7 +32,7 @@ class UsersFragment : MvpAppCompatFragment(), IUsersView, IBackButtonListener {
         UsersPresenter(
             AndroidSchedulers.mainThread(),
             GithubUsersRepo(ApiHolder.api),
-            App.instance.dataBase,
+            DatabaseGithubUsersRepo(App.instance.dataBase),
             App.instance.router,
             AndroidScreens()
         )

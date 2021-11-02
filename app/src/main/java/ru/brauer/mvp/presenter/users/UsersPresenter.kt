@@ -4,17 +4,15 @@ import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.rxjava3.core.SingleObserver
 import io.reactivex.rxjava3.disposables.Disposable
-import io.reactivex.rxjava3.schedulers.Schedulers
 import moxy.MvpPresenter
 import ru.brauer.mvp.model.githubusers.GithubUser
-import ru.brauer.mvp.model.orm.AppDataBase
-import ru.brauer.mvp.model.orm.User
+import ru.brauer.mvp.model.orm.IDatabaseGithubUsersRepo
 import ru.brauer.mvp.presenter.IScreens
 
 class UsersPresenter(
     private val uiScheduler: Scheduler,
     private val usersRepo: IGithubUsersRepo,
-    private val dataBase: AppDataBase,
+    private val usersDataBaseRepo: IDatabaseGithubUsersRepo,
     private val router: Router,
     private val screens: IScreens
 ) :
@@ -47,12 +45,24 @@ class UsersPresenter(
         }
 
         override fun onSuccess(users: List<GithubUser>) {
-            usersListPresenter.users.addAll(users)
-            viewState.updateList()
+            addAllUsers(users)
         }
 
         override fun onError(e: Throwable) {
-            viewState.showMessageError(e.message ?: "Unknown error")
+            val message = e.message ?: "Unknown error"
+            usersDataBaseRepo.getUsers()
+                .observeOn(uiScheduler)
+                .subscribe({
+                    addAllUsers(it)
+                    if (it.isEmpty()) {
+                        viewState.showMessageError(message)
+                    }
+                }, { })
+        }
+
+        private fun addAllUsers(users: List<GithubUser>) {
+            usersListPresenter.users.addAll(users)
+            viewState.updateList()
         }
     }
 
@@ -73,14 +83,7 @@ class UsersPresenter(
         usersListPresenter.users.clear()
         viewState.updateList()
         usersRepo.getUsers()
-            .observeOn(Schedulers.io())
-            .doOnSuccess { users ->
-                dataBase.userDao().addAll(users.mapNotNull { user ->
-                    user.id?.toIntOrNull()?.let {
-                        User(it, user.login, user.avatarUrl)
-                    }
-                })
-            }
+            .doOnSuccess(usersDataBaseRepo::saveAllUsers)
             .observeOn(uiScheduler)
             .subscribe(repositoryObserver)
     }
