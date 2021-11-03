@@ -48,7 +48,7 @@ class UserPresenter(
 
     private fun loadData() {
         repositoriesRepo
-            .getRepositories(user.reposUrl ?: "")
+            .getRepositories(user)
             .observeOn(uiScheduler)
             .subscribe({
                 repoListPresenter.githubRepository.clear()

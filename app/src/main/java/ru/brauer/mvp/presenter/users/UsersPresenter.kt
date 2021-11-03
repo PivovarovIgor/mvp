@@ -6,13 +6,11 @@ import io.reactivex.rxjava3.core.SingleObserver
 import io.reactivex.rxjava3.disposables.Disposable
 import moxy.MvpPresenter
 import ru.brauer.mvp.model.githubusers.GithubUser
-import ru.brauer.mvp.model.orm.IDatabaseGithubUsersRepo
 import ru.brauer.mvp.presenter.IScreens
 
 class UsersPresenter(
     private val uiScheduler: Scheduler,
     private val usersRepo: IGithubUsersRepo,
-    private val usersDataBaseRepo: IDatabaseGithubUsersRepo,
     private val router: Router,
     private val screens: IScreens
 ) :
@@ -45,24 +43,12 @@ class UsersPresenter(
         }
 
         override fun onSuccess(users: List<GithubUser>) {
-            addAllUsers(users)
+            usersListPresenter.users.addAll(users)
+            viewState.updateList()
         }
 
         override fun onError(e: Throwable) {
-            val message = e.message ?: "Unknown error"
-            usersDataBaseRepo.getUsers()
-                .observeOn(uiScheduler)
-                .subscribe({
-                    addAllUsers(it)
-                    if (it.isEmpty()) {
-                        viewState.showMessageError(message)
-                    }
-                }, { })
-        }
-
-        private fun addAllUsers(users: List<GithubUser>) {
-            usersListPresenter.users.addAll(users)
-            viewState.updateList()
+            viewState.showMessageError(e.message ?: "Unknown error")
         }
     }
 
@@ -83,7 +69,6 @@ class UsersPresenter(
         usersListPresenter.users.clear()
         viewState.updateList()
         usersRepo.getUsers()
-            .doOnSuccess(usersDataBaseRepo::saveAllUsers)
             .observeOn(uiScheduler)
             .subscribe(repositoryObserver)
     }

@@ -14,9 +14,10 @@ import moxy.ktx.moxyPresenter
 import ru.brauer.mvp.App
 import ru.brauer.mvp.R
 import ru.brauer.mvp.databinding.FragmentUsersBinding
+import ru.brauer.mvp.model.AndroidNetworkStatus
 import ru.brauer.mvp.model.githubusers.ApiHolder
 import ru.brauer.mvp.model.githubusers.GithubUsersRepo
-import ru.brauer.mvp.model.orm.DatabaseGithubUsersRepo
+import ru.brauer.mvp.model.orm.AppDataBase
 import ru.brauer.mvp.presenter.users.IUsersView
 import ru.brauer.mvp.presenter.users.UsersPresenter
 import ru.brauer.mvp.ui.AndroidScreens
@@ -31,8 +32,11 @@ class UsersFragment : MvpAppCompatFragment(), IUsersView, IBackButtonListener {
     val presenter: UsersPresenter by moxyPresenter {
         UsersPresenter(
             AndroidSchedulers.mainThread(),
-            GithubUsersRepo(ApiHolder.api),
-            DatabaseGithubUsersRepo(App.instance.dataBase),
+            GithubUsersRepo(
+                ApiHolder.api,
+                AndroidNetworkStatus(requireContext()),
+                AppDataBase.getDatabase(requireContext())
+            ),
             App.instance.router,
             AndroidScreens()
         )

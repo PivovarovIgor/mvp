@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object ApiHolder {
 
-    val api: IGithub by lazy {
+    val api: IDataSource by lazy {
 
         val gson = GsonBuilder()
             .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
@@ -19,7 +19,7 @@ object ApiHolder {
             .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
             .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
-            .create(IGithub::class.java)
+            .create(IDataSource::class.java)
     }
 }
 
