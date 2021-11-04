@@ -1,4 +1,4 @@
-package ru.brauer.mvp.model.orm
+package ru.brauer.mvp.model.room
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

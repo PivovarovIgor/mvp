@@ -16,7 +16,8 @@ import ru.brauer.mvp.model.AndroidNetworkStatus
 import ru.brauer.mvp.model.githubusers.ApiHolder
 import ru.brauer.mvp.model.githubusers.GithubRepositoriesRepo
 import ru.brauer.mvp.model.githubusers.GithubUser
-import ru.brauer.mvp.model.orm.AppDataBase
+import ru.brauer.mvp.model.room.AppDataBase
+import ru.brauer.mvp.model.room.RoomGithubRepositoryCache
 import ru.brauer.mvp.presenter.user.IUserView
 import ru.brauer.mvp.presenter.user.UserPresenter
 import ru.brauer.mvp.ui.AndroidScreens
@@ -31,7 +32,7 @@ class UserFragment : MvpAppCompatFragment(), IUserView, IBackButtonListener {
             GithubRepositoriesRepo(
                 ApiHolder.api,
                 AndroidNetworkStatus(requireContext()),
-                AppDataBase.getDatabase(requireContext())
+                RoomGithubRepositoryCache(AppDataBase.getDatabase(requireContext()))
             ),
             App.instance.router,
             AndroidScreens()
