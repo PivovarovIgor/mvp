@@ -32,6 +32,9 @@ interface RepositoryDao {
     @Delete
     fun delete(repositories: List<RoomGithubRepository>)
 
+    @Query("DELETE FROM repositories WHERE user_UID = :userUid")
+    fun deleteForUser(userUid: String)
+
     @Query("SELECT * FROM repositories")
     fun getAll(): List<RoomGithubRepository>
 

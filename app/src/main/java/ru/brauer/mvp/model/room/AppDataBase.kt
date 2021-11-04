@@ -10,7 +10,7 @@ import androidx.room.RoomDatabase
         RoomGithubUser::class,
         RoomGithubRepository::class
     ],
-    version = 1
+    version = 2
 )
 abstract class AppDataBase : RoomDatabase() {
     abstract val userDao: UserDao

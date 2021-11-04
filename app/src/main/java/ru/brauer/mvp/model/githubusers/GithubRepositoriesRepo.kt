@@ -22,6 +22,9 @@ class GithubRepositoriesRepo(
                                 repositories
                             }
                         }
+                        .onErrorReturn {
+                            cache.get(user)
+                        }
                 }
                     ?: Single.error<List<GithubRepository>>(IllegalStateException("User has no repos url"))
                         .subscribeOn(Schedulers.io())

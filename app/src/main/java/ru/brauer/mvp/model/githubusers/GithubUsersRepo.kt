@@ -23,6 +23,9 @@ class GithubUsersRepo(
                                 users
                             }
                         }
+                        .onErrorReturn{
+                            cache.get()
+                        }
                 } else {
                     Single.fromCallable { cache.get() }
                 }

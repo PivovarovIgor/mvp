@@ -21,6 +21,7 @@ class RoomGithubRepositoryCache(private val db: AppDataBase) : IRoomGithubReposi
                 roomUser.uid
             )
         }
+        db.repositoryDao.deleteForUser(roomUser.uid)
         db.repositoryDao.insert(roomRepos)
     }
 
