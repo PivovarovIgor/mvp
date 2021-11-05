@@ -33,10 +33,8 @@ class UserFragment : MvpAppCompatFragment(), IUserView, IBackButtonListener {
                 ApiHolder.api,
                 AndroidNetworkStatus(requireContext()),
                 RoomGithubRepositoryCache(AppDataBase.getDatabase(requireContext()))
-            ),
-            App.instance.router,
-            AndroidScreens()
-        )
+            )
+        ).apply { App.instance.appComponent.inject(this) }
     }
 
     private var binding: FragmentUserBinding? = null

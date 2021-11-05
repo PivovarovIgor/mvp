@@ -2,25 +2,25 @@ package ru.brauer.mvp
 
 import android.app.Application
 import android.util.Log
-import com.github.terrakok.cicerone.Cicerone
-import com.github.terrakok.cicerone.Router
 import io.reactivex.rxjava3.plugins.RxJavaPlugins
+import ru.brauer.mvp.di.AppComponent
+import ru.brauer.mvp.di.DaggerAppComponent
 
 class App : Application() {
     companion object {
         lateinit var instance: App
     }
 
-    private val cicerone: Cicerone<Router> by lazy {
-        Cicerone.create()
-    }
-
-    val navigationHolder get() = cicerone.getNavigatorHolder()
-    val router get() = cicerone.router
+    lateinit var appComponent: AppComponent
 
     override fun onCreate() {
         super.onCreate()
+
         instance = this
+
+        appComponent = DaggerAppComponent.builder()
+            .build()
+
         RxJavaPlugins.setErrorHandler {
             Log.e("App", it.message ?: "")
         }

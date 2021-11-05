@@ -21,7 +21,6 @@ import ru.brauer.mvp.model.room.AppDataBase
 import ru.brauer.mvp.model.room.RoomGithubUsersCache
 import ru.brauer.mvp.presenter.users.IUsersView
 import ru.brauer.mvp.presenter.users.UsersPresenter
-import ru.brauer.mvp.ui.AndroidScreens
 import ru.brauer.mvp.ui.GlideImageLoader
 import ru.brauer.mvp.ui.IBackButtonListener
 
@@ -37,10 +36,8 @@ class UsersFragment : MvpAppCompatFragment(), IUsersView, IBackButtonListener {
                 ApiHolder.api,
                 AndroidNetworkStatus(requireContext()),
                 RoomGithubUsersCache(AppDataBase.getDatabase(requireContext()))
-            ),
-            App.instance.router,
-            AndroidScreens()
-        )
+            )
+        ).apply { App.instance.appComponent.inject(this) }
     }
     private val adapter: UsersRVAdapter by lazy {
         UsersRVAdapter(presenter.usersListPresenter, GlideImageLoader())

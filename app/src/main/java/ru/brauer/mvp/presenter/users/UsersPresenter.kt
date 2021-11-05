@@ -7,14 +7,16 @@ import io.reactivex.rxjava3.disposables.Disposable
 import moxy.MvpPresenter
 import ru.brauer.mvp.model.githubusers.GithubUser
 import ru.brauer.mvp.presenter.IScreens
+import javax.inject.Inject
 
 class UsersPresenter(
     private val uiScheduler: Scheduler,
-    private val usersRepo: IGithubUsersRepo,
-    private val router: Router,
-    private val screens: IScreens
+    private val usersRepo: IGithubUsersRepo
 ) :
     MvpPresenter<IUsersView>() {
+
+    @Inject lateinit var router: Router
+    @Inject lateinit var screens: IScreens
 
     class UsersListPresenter : IUserListPresenter {
         val users = mutableListOf<GithubUser>()

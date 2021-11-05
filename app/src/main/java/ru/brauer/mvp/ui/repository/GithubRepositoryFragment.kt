@@ -32,9 +32,8 @@ class GithubRepositoryFragment : MvpAppCompatFragment(), IRepositoryView, IBackB
 
     private val presenter: RepositoryPresenter by moxyPresenter {
         RepositoryPresenter(
-            requireNotNull(arguments?.getParcelable(KEY_DATA)),
-            App.instance.router
-        )
+            requireNotNull(arguments?.getParcelable(KEY_DATA))
+        ).apply { App.instance.appComponent.inject(this) }
     }
 
     private var binding: FragmentGithubRepositoryBinding? = null

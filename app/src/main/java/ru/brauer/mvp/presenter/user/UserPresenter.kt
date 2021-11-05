@@ -7,14 +7,16 @@ import ru.brauer.mvp.model.githubusers.GithubRepository
 import ru.brauer.mvp.model.githubusers.GithubUser
 import ru.brauer.mvp.model.githubusers.IGithubRepositoriesRepo
 import ru.brauer.mvp.presenter.IScreens
+import javax.inject.Inject
 
 class UserPresenter(
     private val user: GithubUser,
     private val uiScheduler: Scheduler,
-    private val repositoriesRepo: IGithubRepositoriesRepo,
-    private val router: Router,
-    private val screens: IScreens
+    private val repositoriesRepo: IGithubRepositoriesRepo
 ) : MvpPresenter<IUserView>() {
+
+    @Inject lateinit var router: Router
+    @Inject lateinit var screens: IScreens
 
     class RepoListPresenter : IRepoListPresenter {
 
