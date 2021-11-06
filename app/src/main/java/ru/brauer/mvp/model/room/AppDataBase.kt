@@ -15,19 +15,4 @@ import androidx.room.RoomDatabase
 abstract class AppDataBase : RoomDatabase() {
     abstract val userDao: UserDao
     abstract val repositoryDao: RepositoryDao
-
-    companion object {
-        private const val DB_NAME = "database.db"
-        private var instance: AppDataBase? = null
-
-        fun getDatabase(context: Context?): AppDataBase {
-            if (instance == null) {
-                instance =
-                    Room.databaseBuilder(requireNotNull(context), AppDataBase::class.java, DB_NAME)
-                        .fallbackToDestructiveMigration()
-                        .build()
-            }
-            return requireNotNull(instance) { "Database has not been created." }
-        }
-    }
 }

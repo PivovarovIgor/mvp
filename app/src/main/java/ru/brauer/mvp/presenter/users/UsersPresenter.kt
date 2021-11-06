@@ -9,14 +9,19 @@ import ru.brauer.mvp.model.githubusers.GithubUser
 import ru.brauer.mvp.presenter.IScreens
 import javax.inject.Inject
 
-class UsersPresenter(
-    private val uiScheduler: Scheduler,
-    private val usersRepo: IGithubUsersRepo
-) :
-    MvpPresenter<IUsersView>() {
+class UsersPresenter : MvpPresenter<IUsersView>() {
 
-    @Inject lateinit var router: Router
-    @Inject lateinit var screens: IScreens
+    @Inject
+    lateinit var usersRepo: IGithubUsersRepo
+
+    @Inject
+    lateinit var router: Router
+
+    @Inject
+    lateinit var screens: IScreens
+
+    @Inject
+    lateinit var uiScheduler: Scheduler
 
     class UsersListPresenter : IUserListPresenter {
         val users = mutableListOf<GithubUser>()

@@ -7,20 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import ru.brauer.mvp.App
 import ru.brauer.mvp.databinding.FragmentUserBinding
-import ru.brauer.mvp.model.AndroidNetworkStatus
-import ru.brauer.mvp.model.githubusers.ApiHolder
-import ru.brauer.mvp.model.githubusers.GithubRepositoriesRepo
 import ru.brauer.mvp.model.githubusers.GithubUser
-import ru.brauer.mvp.model.room.AppDataBase
-import ru.brauer.mvp.model.room.RoomGithubRepositoryCache
 import ru.brauer.mvp.presenter.user.IUserView
 import ru.brauer.mvp.presenter.user.UserPresenter
-import ru.brauer.mvp.ui.AndroidScreens
 import ru.brauer.mvp.ui.IBackButtonListener
 
 class UserFragment : MvpAppCompatFragment(), IUserView, IBackButtonListener {
@@ -28,12 +21,6 @@ class UserFragment : MvpAppCompatFragment(), IUserView, IBackButtonListener {
     private val presenter by moxyPresenter {
         UserPresenter(
             requireNotNull(arguments?.getParcelable(KEY_ARG_USER)),
-            AndroidSchedulers.mainThread(),
-            GithubRepositoriesRepo(
-                ApiHolder.api,
-                AndroidNetworkStatus(requireContext()),
-                RoomGithubRepositoryCache(AppDataBase.getDatabase(requireContext()))
-            )
         ).apply { App.instance.appComponent.inject(this) }
     }
 

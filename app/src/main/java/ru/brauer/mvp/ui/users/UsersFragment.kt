@@ -8,17 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import ru.brauer.mvp.App
 import ru.brauer.mvp.R
 import ru.brauer.mvp.databinding.FragmentUsersBinding
-import ru.brauer.mvp.model.AndroidNetworkStatus
-import ru.brauer.mvp.model.githubusers.ApiHolder
-import ru.brauer.mvp.model.githubusers.GithubUsersRepo
-import ru.brauer.mvp.model.room.AppDataBase
-import ru.brauer.mvp.model.room.RoomGithubUsersCache
 import ru.brauer.mvp.presenter.users.IUsersView
 import ru.brauer.mvp.presenter.users.UsersPresenter
 import ru.brauer.mvp.ui.GlideImageLoader
@@ -30,14 +24,7 @@ class UsersFragment : MvpAppCompatFragment(), IUsersView, IBackButtonListener {
     }
 
     val presenter: UsersPresenter by moxyPresenter {
-        UsersPresenter(
-            AndroidSchedulers.mainThread(),
-            GithubUsersRepo(
-                ApiHolder.api,
-                AndroidNetworkStatus(requireContext()),
-                RoomGithubUsersCache(AppDataBase.getDatabase(requireContext()))
-            )
-        ).apply { App.instance.appComponent.inject(this) }
+        UsersPresenter().apply { App.instance.appComponent.inject(this) }
     }
     private val adapter: UsersRVAdapter by lazy {
         UsersRVAdapter(presenter.usersListPresenter, GlideImageLoader())

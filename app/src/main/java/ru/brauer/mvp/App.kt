@@ -4,6 +4,7 @@ import android.app.Application
 import android.util.Log
 import io.reactivex.rxjava3.plugins.RxJavaPlugins
 import ru.brauer.mvp.di.AppComponent
+import ru.brauer.mvp.di.AppModule
 import ru.brauer.mvp.di.DaggerAppComponent
 
 class App : Application() {
@@ -19,6 +20,7 @@ class App : Application() {
         instance = this
 
         appComponent = DaggerAppComponent.builder()
+            .appModule(AppModule(this))
             .build()
 
         RxJavaPlugins.setErrorHandler {
